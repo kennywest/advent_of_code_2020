@@ -8,15 +8,15 @@ import static com.google.common.io.Resources.readLines;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class PasswordFile {
-    private final List<PaswordWithPolicyLine> lines = new ArrayList<>();
+    private final List<PasswordWithPolicyLine> lines = new ArrayList<>();
 
     public PasswordFile(String file, PasswordPolicyStrategy strategy) throws Exception {
         readLines(getResource(file), UTF_8).stream()
                 .map(String::trim)
-                .map(l -> new PaswordWithPolicyLine(l, strategy)).forEach(lines::add);
+                .map(l -> new PasswordWithPolicyLine(l, strategy)).forEach(lines::add);
     }
 
     public long validPasswordCount() {
-        return lines.stream().filter(PaswordWithPolicyLine::isValid).count();
+        return lines.stream().filter(PasswordWithPolicyLine::isValid).count();
     }
 }
