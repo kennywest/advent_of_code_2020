@@ -1,4 +1,4 @@
-package org.example;
+package advent.of.code.day01;
 
 import lombok.Value;
 
