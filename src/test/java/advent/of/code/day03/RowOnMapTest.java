@@ -14,7 +14,8 @@ public class RowOnMapTest {
 
         assertThat(row.right(3))
                 .usingRecursiveComparison()
-                .isEqualTo(new Tree(2, 0));
+                .ignoringFields("onRow")
+                .isEqualTo(new Tree(2, 0, null));
     }
 
     @Test
@@ -23,7 +24,8 @@ public class RowOnMapTest {
 
         assertThat(row.right(5))
                 .usingRecursiveComparison()
-                .isEqualTo(new OpenSquare(4, 0));
+                .ignoringFields("onRow")
+                .isEqualTo(new OpenSquare(4, 0, null));
     }
 
     @Test
@@ -32,6 +34,28 @@ public class RowOnMapTest {
 
         assertThat(row.right(15))
                 .usingRecursiveComparison()
-                .isEqualTo(new Tree(14, 0));
+                .ignoringFields("onRow")
+                .isEqualTo(new Tree(14, 0, null));
+    }
+
+    @Test
+    public void shouldGoRightTwice() {
+        var row = new RowOnMap("..#.", 0);
+
+        assertThat(row.right(row.right(10), 5))
+                .usingRecursiveComparison()
+                .ignoringFields("onRow")
+                .isEqualTo(new Tree(14, 0, null));
+    }
+
+    @Test
+    public void shouldGoRightAndDown() {
+        var row = new RowOnMap("..##.......", 0);
+        row.next("#...#...#..").next(".#....#..#.");
+
+        assertThat(row.right(3).down().right(2).right(1).down())
+                .usingRecursiveComparison()
+                .ignoringFields("onRow")
+                .isEqualTo(new Tree(5, 2, null));
     }
 }
