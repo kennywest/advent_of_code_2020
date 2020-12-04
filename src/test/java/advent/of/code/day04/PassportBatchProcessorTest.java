@@ -19,7 +19,8 @@ public class PassportBatchProcessorTest {
     public void shouldParsePuzzleFile() throws Exception {
         PassportBatchProcessor processor = new PassportBatchProcessor("input_4_2.txt");
 
-        assertThat(processor.muberOfValidPassports()).isEqualTo(242);
+        // assertThat(processor.muberOfValidPassports()).isEqualTo(242);
+        assertThat(processor.muberOfValidPassports()).isEqualTo(186);
         assertThat(processor.lastLine().getIssueYear()).contains(2017);
         assertThat(processor.lastLine().getBirthYear()).contains(1969);
     }
