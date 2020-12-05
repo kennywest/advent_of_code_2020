@@ -23,8 +23,8 @@ public class PasswordPolicy2 implements PasswordPolicy {
 
     @Override
     public boolean isValid(String password) {
-        boolean position1HasCorrectCharacter = password.charAt(position1 - 1) == this.character;
-        boolean position2HasCorrectCharacter = password.charAt(position2 - 1) == this.character;
+        boolean position1HasCorrectCharacter = password.charAt(this.position1 - 1) == this.character;
+        boolean position2HasCorrectCharacter = password.charAt(this.position2 - 1) == this.character;
         if (position1HasCorrectCharacter) {
             return !position2HasCorrectCharacter;
         } else {

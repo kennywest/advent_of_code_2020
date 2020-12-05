@@ -1,9 +1,9 @@
 package advent.of.code.day04;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
 
 import static java.lang.Integer.parseInt;
 

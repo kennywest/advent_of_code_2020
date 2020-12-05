@@ -28,7 +28,7 @@ public class RowOnMap {
     }
 
     public RowOnMap next(String pattern) {
-        this.nextRow = new RowOnMap(pattern, y + 1);
+        this.nextRow = new RowOnMap(pattern, this.y + 1);
         return this.nextRow;
     }
 
@@ -37,10 +37,10 @@ public class RowOnMap {
     }
 
     public Cell right(int steps) {
-        if (steps > cells.size()) {
+        if (steps > this.cells.size()) {
             growRow(steps);
         }
-        return cells.get(steps - 1);
+        return this.cells.get(steps - 1);
     }
 
     public Cell right(Cell from, int steps) {
@@ -49,17 +49,17 @@ public class RowOnMap {
 
     public Cell down(Cell from) {
         if (this.nextRow != null) {
-            return nextRow.right(from.x + 1);
+            return this.nextRow.right(from.x + 1);
         }
         return from;
     }
 
     public String getPattern() {
-        return pattern;
+        return this.pattern;
     }
 
     private void growRow(int steps) {
-        while (cells.size() < steps) {
+        while (this.cells.size() < steps) {
             addCells(this.cells, this.y, this.pattern, this);
         }
     }
@@ -76,7 +76,7 @@ public class RowOnMap {
         }
 
         Cell down() {
-            return onRow.down(this);
+            return this.onRow.down(this);
         }
 
         Cell right() {
@@ -84,7 +84,7 @@ public class RowOnMap {
         }
 
         Cell right(int steps) {
-            return onRow.right(this, steps);
+            return this.onRow.right(this, steps);
         }
 
         abstract boolean isTree();
@@ -92,8 +92,8 @@ public class RowOnMap {
         @Override
         public String toString() {
             return "{" +
-                    "x=" + x +
-                    ", y=" + y +
+                    "x=" + this.x +
+                    ", y=" + this.y +
                     '}';
         }
     }

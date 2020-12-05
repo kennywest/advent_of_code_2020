@@ -1,9 +1,9 @@
 package advent.of.code.day04;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 import static com.google.common.io.Resources.getResource;
 import static com.google.common.io.Resources.readLines;
@@ -18,14 +18,14 @@ public class PassportBatchProcessor {
 
         for (String line : readLines(getResource(file), UTF_8)) {
             if (StringUtils.isEmpty(line)) {
-                lines.add(new PassportLine(sb.toString()));
+                this.lines.add(new PassportLine(sb.toString()));
                 sb = new StringBuilder();
             } else {
                 sb.append(line).append(" ");
             }
         }
 
-        lines.add(new PassportLine(sb.toString()));
+        this.lines.add(new PassportLine(sb.toString()));
     }
 
     public long muberOfValidPassports() {
@@ -33,7 +33,7 @@ public class PassportBatchProcessor {
     }
 
     public int numberOfPassportsInBatch() {
-        return lines.size();
+        return this.lines.size();
     }
 
     public PassportLine lastLine() {

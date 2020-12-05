@@ -1,8 +1,8 @@
 package advent.of.code.day02;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
 
 import static java.lang.Integer.parseInt;
 import static java.util.regex.Pattern.compile;
@@ -24,15 +24,15 @@ public class PasswordPolicy1 implements PasswordPolicy {
     }
 
     public int getAtLeast() {
-        return atLeast;
+        return this.atLeast;
     }
 
     public int getAtMost() {
-        return atMost;
+        return this.atMost;
     }
 
     public String getCharacter() {
-        return character;
+        return this.character;
     }
 
     @Override

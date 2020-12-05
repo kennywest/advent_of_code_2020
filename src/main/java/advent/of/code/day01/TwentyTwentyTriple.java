@@ -9,6 +9,6 @@ public class TwentyTwentyTriple {
     ExpenseLine line3;
 
     int multiplied() {
-        return line1.getExpense() * line2.getExpense() * line3.getExpense();
+        return this.line1.getExpense() * this.line2.getExpense() * this.line3.getExpense();
     }
 }

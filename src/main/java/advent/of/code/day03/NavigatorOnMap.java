@@ -26,7 +26,7 @@ public class NavigatorOnMap {
             currentCell = navigateToNextCell(right, down);
         }
 
-        return numberOfTrees;
+        return this.numberOfTrees;
     }
 
     public RowOnMap.Cell navigateToNextCell() {
@@ -55,6 +55,6 @@ public class NavigatorOnMap {
     }
 
     public int getNumberOfTrees() {
-        return numberOfTrees;
+        return this.numberOfTrees;
     }
 }

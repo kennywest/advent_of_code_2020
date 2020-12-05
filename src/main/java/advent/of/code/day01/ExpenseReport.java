@@ -14,19 +14,19 @@ public class ExpenseReport {
     private final List<ExpenseLine> lines = new ArrayList<>();
 
     public ExpenseReport(int... expenses) {
-        stream(expenses).mapToObj(ExpenseLine::new).forEach(lines::add);
+        stream(expenses).mapToObj(ExpenseLine::new).forEach(this.lines::add);
     }
 
     public ExpenseReport(String file) throws Exception {
         readLines(getResource(file), UTF_8).stream()
                 .map(String::trim)
                 .map(Integer::parseInt)
-                .map(ExpenseLine::new).forEach(lines::add);
+                .map(ExpenseLine::new).forEach(this.lines::add);
     }
 
     public Optional<TwentyTwentyTuple> getTwentyTwentyTuple() {
-        for (ExpenseLine line1 : lines) {
-            for (ExpenseLine line2 : lines) {
+        for (ExpenseLine line1 : this.lines) {
+            for (ExpenseLine line2 : this.lines) {
                 if (sumIsTwentyTwenty(line1, line2)) {
                     return Optional.of(new TwentyTwentyTuple(line1, line2));
                 }
@@ -36,9 +36,9 @@ public class ExpenseReport {
     }
 
     public Optional<TwentyTwentyTriple> getTwentyTwentyTriple() {
-        for (ExpenseLine line1 : lines) {
-            for (ExpenseLine line2 : lines) {
-                for (ExpenseLine line3 : lines) {
+        for (ExpenseLine line1 : this.lines) {
+            for (ExpenseLine line2 : this.lines) {
+                for (ExpenseLine line3 : this.lines) {
                     if (sumIsTwentyTwenty(line1, line2, line3)) {
                         return Optional.of(new TwentyTwentyTriple(line1, line2, line3));
                     }

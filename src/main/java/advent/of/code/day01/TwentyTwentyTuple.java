@@ -8,6 +8,6 @@ public class TwentyTwentyTuple {
     ExpenseLine line2;
 
     int multiplied() {
-        return TwentyTwentyTuple.this.line1.getExpense() * TwentyTwentyTuple.this.line2.getExpense();
+        return this.line1.getExpense() * this.line2.getExpense();
     }
 }

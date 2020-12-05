@@ -20,11 +20,11 @@ public class Map {
         }
     }
 
-    public RowOnMap getStart() {
-        return start;
+    public RowOnMap getStart()   {
+        return this.start;
     }
 
     public RowOnMap getEnd() {
-        return end;
+        return this.end;
     }
 }

@@ -27,12 +27,12 @@ public class PassportLine {
     public PassportLine(String line) {
         stream(line.split("\\s")).forEach(d -> {
             String[] dataParts = d.split(":");
-            data.put(dataParts[0], dataParts[1]);
+            this.data.put(dataParts[0], dataParts[1]);
         });
     }
 
     public boolean isValid() {
-        boolean valid = ALL_KEYS_BUT_CID.stream().allMatch(data::containsKey);
+        boolean valid = ALL_KEYS_BUT_CID.stream().allMatch(this.data::containsKey);
 
         valid = valid && validBirthYear()
                 && validIssueYear()
@@ -58,32 +58,32 @@ public class PassportLine {
     }
 
     private boolean validHeight() {
-        return HEIGHT_PREDICATE.test(data.get(HEIGHT));
+        return HEIGHT_PREDICATE.test(this.data.get(HEIGHT));
     }
 
     private boolean validHairColor() {
-        return HAIR_COLOR_PREDICATE.test(data.get(HAIR_COLOR));
+        return HAIR_COLOR_PREDICATE.test(this.data.get(HAIR_COLOR));
     }
 
     private boolean validEyeColor() {
-        return List.of("amb", "blu", "brn", "gry", "grn", "hzl", "oth").contains(data.get(EYE_COLOR));
+        return List.of("amb", "blu", "brn", "gry", "grn", "hzl", "oth").contains(this.data.get(EYE_COLOR));
     }
 
     private boolean validPassportId() {
-        return PASSPORT_ID_PREDICATE.test(data.get(PASSPORT_ID));
+        return PASSPORT_ID_PREDICATE.test(this.data.get(PASSPORT_ID));
     }
 
 
     public Optional<Integer> getBirthYear() {
-        return Optional.ofNullable(data.get(BIRTH_YEAR)).map(Integer::parseInt);
+        return Optional.ofNullable(this.data.get(BIRTH_YEAR)).map(Integer::parseInt);
     }
 
     public Optional<Integer> getIssueYear() {
-        return Optional.ofNullable(data.get(ISSUE_YEAR)).map(Integer::parseInt);
+        return Optional.ofNullable(this.data.get(ISSUE_YEAR)).map(Integer::parseInt);
     }
 
     public Optional<Integer> getExpirationYear() {
-        return Optional.ofNullable(data.get(EXPIRATION_YEAR)).map(Integer::parseInt);
+        return Optional.ofNullable(this.data.get(EXPIRATION_YEAR)).map(Integer::parseInt);
     }
 
 

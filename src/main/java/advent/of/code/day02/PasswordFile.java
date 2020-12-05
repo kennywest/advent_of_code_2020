@@ -13,10 +13,10 @@ public class PasswordFile {
     public PasswordFile(String file, PasswordPolicyStrategy strategy) throws Exception {
         readLines(getResource(file), UTF_8).stream()
                 .map(String::trim)
-                .map(l -> new PasswordWithPolicyLine(l, strategy)).forEach(lines::add);
+                .map(l -> new PasswordWithPolicyLine(l, strategy)).forEach(this.lines::add);
     }
 
     public long validPasswordCount() {
-        return lines.stream().filter(PasswordWithPolicyLine::isValid).count();
+        return this.lines.stream().filter(PasswordWithPolicyLine::isValid).count();
     }
 }
