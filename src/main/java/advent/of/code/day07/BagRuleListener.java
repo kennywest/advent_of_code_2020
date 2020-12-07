@@ -3,6 +3,7 @@ package advent.of.code.day07;
 public class BagRuleListener {
     private final BagRepository bagRepository;
     private Bag currentBag;
+    private int count;
 
     public BagRuleListener(BagRepository bagRepository) {
         this.bagRepository = bagRepository;
@@ -10,7 +11,7 @@ public class BagRuleListener {
 
     public void bagWithColor(String bagWithColor) {
         if (this.currentBag != null) {
-            this.currentBag.addChild(getOrCreateBag(bagWithColor));
+            this.currentBag.addChild(this.count, getOrCreateBag(bagWithColor));
         } else {
             this.currentBag = getOrCreateBag(bagWithColor);
         }
@@ -22,6 +23,7 @@ public class BagRuleListener {
     }
 
     public void count(int count) {
+        this.count = count;
     }
 
     public void contains() {
@@ -32,5 +34,6 @@ public class BagRuleListener {
 
     public void period() {
         this.currentBag = null;
+        this.count = 0;
     }
 }

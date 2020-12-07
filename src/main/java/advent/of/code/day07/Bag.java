@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Set;
 
 import lombok.EqualsAndHashCode;
+import lombok.Value;
 
 @EqualsAndHashCode(exclude = {"parents", "children"})
 public class Bag {
 
     private final String color;
     private final List<Bag> parents = new ArrayList<>();
-    private final List<Bag> children = new ArrayList<>();
+    private final List<ChildBags> children = new ArrayList<>();
 
     public Bag(String color) {
         this.color = color.trim();
@@ -22,10 +23,8 @@ public class Bag {
         return this.color;
     }
 
-    void addChild(Bag bag) {
-        if (!this.children.contains(bag)) {
-            this.children.add(bag);
-        }
+    void addChild(int count, Bag bag) {
+        this.children.add(new ChildBags(count, bag));
         bag.addParent(this);
     }
 
@@ -55,5 +54,37 @@ public class Bag {
 
     public int countChildren() {
         return this.children.size();
+    }
+
+    public int numberOfBagsFor(String bagColor) {
+        return this.children.stream()
+                .filter(c -> bagColor.equals(c.getColor()))
+                .findFirst()
+                .map(ChildBags::getCount)
+                .orElse(0);
+    }
+
+    public int countChildBags() {
+        return this.children.stream()
+                .map(ChildBags::getCount)
+                .mapToInt(i -> i)
+                .sum();
+    }
+
+    @Value
+    private static class ChildBags {
+        int count;
+        Bag bag;
+
+        String getColor() {
+            return this.bag.getColor();
+        }
+
+        public int getCount() {
+            if (this.bag.children.isEmpty()) {
+                return this.count;
+            }
+            return this.count + (this.count * this.bag.children.stream().map(ChildBags::getCount).mapToInt(i -> i).sum());
+        }
     }
 }
