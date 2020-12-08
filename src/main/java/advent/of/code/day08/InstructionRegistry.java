@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import io.vavr.Tuple2;
+
+import static java.util.stream.Collectors.toList;
 
 public class InstructionRegistry {
 
@@ -70,5 +73,9 @@ public class InstructionRegistry {
         this.ended = false;
         this.currentInstruction = this.instructions.get(0);
         this.instructionsExecuted.clear();
+    }
+
+    public List<Instruction> getAllInstructions(Predicate<Instruction> filter) {
+        return this.instructions.stream().map(i -> i._2).filter(filter).collect(toList());
     }
 }

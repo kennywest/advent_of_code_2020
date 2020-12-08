@@ -3,6 +3,8 @@ package advent.of.code.day08;
 import org.junit.Before;
 import org.junit.Test;
 
+import static advent.of.code.day08.Operation.JMP;
+import static advent.of.code.day08.Operation.NOP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -43,10 +45,21 @@ public class ProgramTest {
 
     @Test
     public void shouldRunPuzzleInputAndEnd() throws Exception {
-        var program = new Program("input_8_4.txt");
+        var program = new Program("input_8_2.txt");
+        var instructions = InstructionRegistry.INSTANCE.getAllInstructions(i -> JMP == i.getOperation() || NOP == i.getOperation());
 
-        program.run();
+        for (int i = 0; i < instructions.size(); i++) {
+            try {
+                program.run();
+            } catch (Throwable t) {
+                if (i > 0) {
+                    instructions.get(i - 1).switchOperation();
+                }
+                instructions.get(i).switchOperation();
+                program.reset();
+            }
+        }
 
-        assertThat(Accumulator.INSTANCE.getCurrentValue()).isEqualTo(8);
+        assertThat(Accumulator.INSTANCE.getCurrentValue()).isEqualTo(1976);
     }
 }

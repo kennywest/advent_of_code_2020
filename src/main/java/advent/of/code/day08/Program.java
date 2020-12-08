@@ -15,4 +15,9 @@ public class Program {
             InstructionRegistry.INSTANCE.tic();
         }
     }
+
+    public void reset() {
+        Accumulator.INSTANCE.reset();
+        InstructionRegistry.INSTANCE.reset();
+    }
 }

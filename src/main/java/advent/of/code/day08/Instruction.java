@@ -1,12 +1,17 @@
 package advent.of.code.day08;
 
-import lombok.Value;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-@Value
+import static advent.of.code.day08.Operation.JMP;
+import static advent.of.code.day08.Operation.NOP;
+
+@ToString
+@EqualsAndHashCode
 public class Instruction {
 
-    Operation operation;
-    Argument argument;
+    private Operation operation;
+    private final Argument argument;
 
     public Instruction(String line) {
         String[] parts = line.split(" ");
@@ -22,5 +27,24 @@ public class Instruction {
 
     void execute() {
         this.operation.execute(this.argument);
+    }
+
+    public Operation getOperation() {
+        return this.operation;
+    }
+
+    void switchOperation() {
+        switch (this.operation) {
+            case JMP:
+                this.operation = NOP;
+                break;
+            case NOP:
+                this.operation = JMP;
+                break;
+        }
+    }
+
+    public Argument getArgument() {
+        return this.argument;
     }
 }
