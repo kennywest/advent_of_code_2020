@@ -23,13 +23,13 @@ public class AllNumbers {
         this(readLines(getResource(file), UTF_8).stream().map(Long::parseLong).collect(toList()));
     }
 
-    public HasValidInWindow checkNext(int windowSize) {
+    public HasValidValuesInWindow checkNext(int windowSize) {
         return checkNext(windowSize, this.allNumbers.get(this.currentWindowStartsAt + windowSize));
     }
 
-    public HasValidInWindow checkNext(int windowSize, long testValue) {
+    public HasValidValuesInWindow checkNext(int windowSize, long testValue) {
         try {
-            return new HasValidInWindow(
+            return new HasValidValuesInWindow(
                     new Window(this.allNumbers.subList(this.currentWindowStartsAt, this.currentWindowStartsAt + windowSize)),
                     testValue);
         } finally {
@@ -59,7 +59,7 @@ public class AllNumbers {
     }
 
     @Value
-    static class HasValidInWindow {
+    static class HasValidValuesInWindow {
         Window window;
         long testValue;
 
