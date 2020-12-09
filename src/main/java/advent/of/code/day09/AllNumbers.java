@@ -2,6 +2,7 @@ package advent.of.code.day09;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 import lombok.Value;
 
@@ -23,13 +24,34 @@ public class AllNumbers {
     }
 
     public HasValidInWindow checkNext(int windowSize) {
+        return checkNext(windowSize, this.allNumbers.get(this.currentWindowStartsAt + windowSize));
+    }
+
+    public HasValidInWindow checkNext(int windowSize, long testValue) {
         try {
             return new HasValidInWindow(
                     new Window(this.allNumbers.subList(this.currentWindowStartsAt, this.currentWindowStartsAt + windowSize)),
-                    this.allNumbers.get(this.currentWindowStartsAt + windowSize));
+                    testValue);
         } finally {
             this.currentWindowStartsAt++;
         }
+    }
+
+    public Window findWindowHavindSum(long sum) {
+        BiFunction<Window, Long, Boolean> sumOfAllValuesInWindowEquals = (w, l) -> w.sumOfAllValuesInWindow().equals(l);
+
+        for (int i = 2; i < this.allNumbers.size(); i++) {
+            this.currentWindowStartsAt = 0;
+            var window = checkNext(i, sum);
+            while (window.getLastNumber() != sum) {
+                if (window.test(sumOfAllValuesInWindowEquals)) {
+                    return window.window;
+                }
+                window = checkNext(i, sum);
+            }
+        }
+
+        return null;
     }
 
     public int size() {
@@ -41,8 +63,8 @@ public class AllNumbers {
         Window window;
         long testValue;
 
-        public boolean test() {
-            return this.window.hasSumFor(this.testValue);
+        public boolean test(BiFunction<Window, Long, Boolean> predicate) {
+            return predicate.apply(this.window, this.testValue);
         }
 
         public List<Long> getNumbers() {
@@ -51,6 +73,10 @@ public class AllNumbers {
 
         public long getTestValue() {
             return this.testValue;
+        }
+
+        public long getLastNumber() {
+            return this.window.getLastNumber();
         }
     }
 }

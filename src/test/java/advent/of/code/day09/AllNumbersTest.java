@@ -22,7 +22,7 @@ public class AllNumbersTest {
         var allNumbers = new AllNumbers("input_9_1.txt");
 
         var check = allNumbers.checkNext(5);
-        while (check.test()) {
+        while (check.test(Window::hasSumFor)) {
             check = allNumbers.checkNext(5);
         }
 
@@ -34,11 +34,30 @@ public class AllNumbersTest {
         var allNumbers = new AllNumbers("input_9_2.txt");
 
         var check = allNumbers.checkNext(25);
-        while (check.test()) {
+        while (check.test(Window::hasSumFor)) {
             check = allNumbers.checkNext(25);
         }
 
         assertThat(allNumbers.size()).isEqualTo(1000);
         assertThat(check.getTestValue()).isEqualTo(22406676);
+    }
+
+    @Test
+    public void shouldFindWindowHavingSum127() throws Exception {
+        var allNumbers = new AllNumbers("input_9_1.txt");
+
+        Window window = allNumbers.findWindowHavindSum(127);
+        assertThat(window.getNumbers()).containsAll(List.of(15L, 25L, 47L, 40L));
+        assertThat(window.getSmallestNumber()).isEqualTo(15);
+        assertThat(window.getBiggestNumber()).isEqualTo(47);
+        assertThat(window.getBiggestNumber() + window.getSmallestNumber()).isEqualTo(62);
+    }
+
+    @Test
+    public void shouldFindWindowHavingSum22406676() throws Exception {
+        var allNumbers = new AllNumbers("input_9_2.txt");
+
+        Window window = allNumbers.findWindowHavindSum(22406676);
+        assertThat(window.getBiggestNumber() + window.getSmallestNumber()).isEqualTo(2942387);
     }
 }
