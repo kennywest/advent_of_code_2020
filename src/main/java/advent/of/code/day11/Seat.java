@@ -13,9 +13,13 @@ public class Seat {
     private State nextState;
 
     public Seat(int x, int y) {
+        this(x, y, FREE);
+    }
+
+    public Seat(int x, int y, State currentState) {
         this.x = x;
         this.y = y;
-        this.currentState = FREE;
+        this.currentState = currentState;
     }
 
     public int getX() {
@@ -58,6 +62,15 @@ public class Seat {
             this.nextState = null;
             listener.recordChange();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Seat{" +
+                "x=" + this.x +
+                ", y=" + this.y +
+                ", currentState=" + this.currentState +
+                '}';
     }
 
     enum State {

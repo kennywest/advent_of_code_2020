@@ -1,5 +1,7 @@
 package advent.of.code.day11;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,5 +45,76 @@ public class SeatRepositoryTest {
         var seatRepository = SeatRepository.INSTANCE;
 
         assertThat(seatRepository.getAllSeats()).hasSize(71);
+    }
+
+    @Test
+    public void shouldSeeEmptySeat() {
+        shouldSeeEmptySeat(List.of(
+                ".............",
+                ".L.L.#.#.#.#.",
+                "............."), 1, 1);
+
+        shouldSeeEmptySeat(List.of(
+                ".............",
+                ".#.#.#.#.L.L.",
+                "............."), 11, 1);
+
+        shouldSeeEmptySeat(List.of(
+                ".L...........",
+                ".............",
+                ".L.#.#.#.#.#.",
+                "............."), 1, 2);
+
+        shouldSeeEmptySeat(List.of(
+                ".............",
+                ".L.#.#.#.#.#.",
+                ".............",
+                ".L..........."), 1, 1);
+
+        shouldSeeEmptySeat(List.of(
+                "...L.........",
+                ".............",
+                ".L.#.#.#.#.#.",
+                "............."), 1, 2);
+
+        shouldSeeEmptySeat(List.of(
+                ".............",
+                ".L.#.#.#.#.#.",
+                ".............",
+                "...L........."), 1, 1);
+
+        shouldSeeEmptySeat(List.of(
+                ".............",
+                "...L.#.#.#.#.",
+                ".............",
+                ".L..........."), 3, 1);
+    }
+
+    private void shouldSeeEmptySeat(List<String> input, int x, int y) {
+        var seatRepository = SeatRepository.INSTANCE;
+        seatRepository.clear();
+        new Grid(input).getListOfSeats().forEach(seatRepository::save);
+
+        assertThat(seatRepository.getSurroundingSeats(new Position(x, y))).hasSize(0);
+        assertThat(seatRepository.getAllVisibleSurroundingSeats(new Position(x, y)).stream().filter(Seat::isFree)).hasSize(1);
+    }
+
+    @Test
+    public void shouldSeeEightOccupiedSeats() {
+        var seatRepository = SeatRepository.INSTANCE;
+        seatRepository.clear();
+        new Grid(List.of(
+                ".......#.",
+                "...#.....",
+                ".#.......",
+                ".........",
+                "..#L....#",
+                "....#....",
+                ".........",
+                "#........",
+                "...#.....")).getListOfSeats().forEach(seatRepository::save);
+
+        assertThat(seatRepository.getSurroundingSeats(new Position(3, 4))).hasSize(2);
+        assertThat(seatRepository.getAllVisibleSurroundingSeats(new Position(3, 4))).hasSize(8);
     }
 }

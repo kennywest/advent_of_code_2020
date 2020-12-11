@@ -3,6 +3,7 @@ package advent.of.code.day11;
 import java.util.ArrayList;
 import java.util.List;
 
+import static advent.of.code.day11.Seat.State.OCCUPIED;
 import static com.google.common.io.Resources.getResource;
 import static com.google.common.io.Resources.readLines;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -27,6 +28,9 @@ public class Grid {
             for (int x = 0; x < row.size(); x++) {
                 if (row.get(x) == 'L') {
                     seats.add(new Seat(x, y));
+                }
+                if (row.get(x) == '#') {
+                    seats.add(new Seat(x, y, OCCUPIED));
                 }
             }
         }
