@@ -2,7 +2,6 @@ package advent.of.code.day11;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +19,6 @@ public class BonusPuzzleTest {
         SeatRepository.INSTANCE.clear();
     }
 
-    @Ignore
     @Test
     public void shouldSettle() {
         var seatRepository = SeatRepository.INSTANCE;
@@ -29,7 +27,7 @@ public class BonusPuzzleTest {
             var change = new ChangedStateListener();
             seatRepository.getAllSeats().forEach(Seat::tic);
             seatRepository.getAllSeats().forEach(s -> s.commit(change));
-            seatRepository.print();
+            //seatRepository.print();
 
             if (!change.isStateChanged()) {
                 break;
