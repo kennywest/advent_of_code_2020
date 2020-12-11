@@ -12,13 +12,23 @@ import static java.util.stream.Collectors.toList;
 public class Grid {
 
     private final List<List<Character>> positions = new ArrayList<>();
+    private final SurroundingSeatsSpotter spotter;
 
     public Grid(List<String> lines) {
+        this(lines, new SurroundingSeatsSpotter.Easy());
+    }
+
+    public Grid(List<String> lines, SurroundingSeatsSpotter spotter) {
+        this.spotter = spotter;
         lines.forEach(line -> this.positions.add(line.chars().mapToObj(c -> (char) c).collect(toList())));
     }
 
     public Grid(String file) throws Exception {
         this(readLines(getResource(file), UTF_8).stream().collect(toList()));
+    }
+
+    public Grid(String file, SurroundingSeatsSpotter spotter) throws Exception {
+        this(readLines(getResource(file), UTF_8).stream().collect(toList()), spotter);
     }
 
     public List<Seat> getListOfSeats() {
@@ -27,10 +37,10 @@ public class Grid {
             List<Character> row = this.positions.get(y);
             for (int x = 0; x < row.size(); x++) {
                 if (row.get(x) == 'L') {
-                    seats.add(new Seat(x, y));
+                    seats.add(new Seat(x, y, this.spotter));
                 }
                 if (row.get(x) == '#') {
-                    seats.add(new Seat(x, y, OCCUPIED));
+                    seats.add(new Seat(x, y, this.spotter, OCCUPIED));
                 }
             }
         }

@@ -15,10 +15,8 @@ public final class SeatRepository {
     public static final SeatRepository INSTANCE = new SeatRepository();
 
     private final Map<Position, Seat> seats = new HashMap<>();
-    private final SurroundingSeatsSpotter surroundingSeatsSpotter;
 
     private SeatRepository() {
-        this.surroundingSeatsSpotter = SeatRepository.this::getAdjecentSurroundingSeats;
     }
 
     public Optional<Seat> getSeat(Position position) {
@@ -34,22 +32,18 @@ public final class SeatRepository {
         return seat;
     }
 
-    public List<Seat> getSurroundingSeats(Seat seat) {
-        return this.surroundingSeatsSpotter.getSurroundingSeats(seat);
-    }
-
-    public List<Seat> getSurroundingSeats(Position position) {
-        return this.surroundingSeatsSpotter.getSurroundingSeats(position);
-    }
-
-    private List<Seat> getAdjecentSurroundingSeats(Seat seat) {
+    public List<Seat> getAdjecentSurroundingSeats(Seat seat) {
         return getAdjecentSurroundingSeats(new Position(seat.getX(), seat.getY()));
     }
 
-    private List<Seat> getAdjecentSurroundingSeats(Position position) {
+    public List<Seat> getAdjecentSurroundingSeats(Position position) {
         return position.getSurroundingPositions().stream()
                 .flatMap(p -> getSeat(p).stream())
                 .collect(toList());
+    }
+
+    public List<Seat> getAllVisibleSurroundingSeats(Seat seat) {
+        return getAllVisibleSurroundingSeats(new Position(seat.getX(), seat.getY()));
     }
 
     public List<Seat> getAllVisibleSurroundingSeats(Position position) {

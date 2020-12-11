@@ -30,14 +30,14 @@ public class SeatRepositoryTest {
         assertThat(toTest).isNotNull();
         assertThat(toTest.getX()).isEqualTo(2);
         assertThat(toTest.getY()).isEqualTo(1);
-        assertThat(seatRepository.getSurroundingSeats(new Position(2, 1))).hasSize(5);
-        assertThat(seatRepository.getSurroundingSeats(new Position(0, 0))).hasSize(2);
-        assertThat(seatRepository.getSurroundingSeats(new Position(2, 0))).hasSize(4);
-        assertThat(seatRepository.getSurroundingSeats(new Position(3, 0))).hasSize(4);
-        assertThat(seatRepository.getSurroundingSeats(new Position(5, 0))).hasSize(4);
-        assertThat(seatRepository.getSurroundingSeats(new Position(6, 0))).hasSize(3);
-        assertThat(seatRepository.getSurroundingSeats(new Position(8, 0))).hasSize(3);
-        assertThat(seatRepository.getSurroundingSeats(new Position(9, 0))).hasSize(3);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(2, 1))).hasSize(5);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(0, 0))).hasSize(2);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(2, 0))).hasSize(4);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(3, 0))).hasSize(4);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(5, 0))).hasSize(4);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(6, 0))).hasSize(3);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(8, 0))).hasSize(3);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(9, 0))).hasSize(3);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class SeatRepositoryTest {
         seatRepository.clear();
         new Grid(input).getListOfSeats().forEach(seatRepository::save);
 
-        assertThat(seatRepository.getSurroundingSeats(new Position(x, y))).hasSize(0);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(x, y))).hasSize(0);
         assertThat(seatRepository.getAllVisibleSurroundingSeats(new Position(x, y)).stream().filter(Seat::isFree)).hasSize(1);
     }
 
@@ -114,7 +114,7 @@ public class SeatRepositoryTest {
                 "#........",
                 "...#.....")).getListOfSeats().forEach(seatRepository::save);
 
-        assertThat(seatRepository.getSurroundingSeats(new Position(3, 4))).hasSize(2);
+        assertThat(seatRepository.getAdjecentSurroundingSeats(new Position(3, 4))).hasSize(2);
         assertThat(seatRepository.getAllVisibleSurroundingSeats(new Position(3, 4))).hasSize(8);
     }
 }

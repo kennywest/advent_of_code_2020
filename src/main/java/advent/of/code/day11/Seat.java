@@ -1,24 +1,23 @@
 package advent.of.code.day11;
 
-import java.util.List;
-
 import static advent.of.code.day11.Seat.State.FREE;
 import static advent.of.code.day11.Seat.State.OCCUPIED;
 
 public class Seat {
     private final int x;
     private final int y;
-    private List<Seat> neighbours;
+    private final SurroundingSeatsSpotter spotter;
     private State currentState;
     private State nextState;
 
-    public Seat(int x, int y) {
-        this(x, y, FREE);
+    public Seat(int x, int y, SurroundingSeatsSpotter spotter) {
+        this(x, y, spotter, FREE);
     }
 
-    public Seat(int x, int y, State currentState) {
+    public Seat(int x, int y, SurroundingSeatsSpotter spotter, State currentState) {
         this.x = x;
         this.y = y;
+        this.spotter = spotter;
         this.currentState = currentState;
     }
 
@@ -39,21 +38,19 @@ public class Seat {
     }
 
     public void tic() {
-        if (this.currentState == FREE && adjecentSeatsAraAllFree()) {
+        if (this.currentState == FREE && surroundingSeatsAreAllFree()) {
             this.nextState = OCCUPIED;
-        } else if (this.currentState == OCCUPIED && numberOfAdjecentSeatsOccupied() >= 4) {
+        } else if (this.currentState == OCCUPIED && numberOfOccupiedSurroundingSeatsIsAcceptable()) {
             this.nextState = FREE;
         }
     }
 
-    private boolean adjecentSeatsAraAllFree() {
-        return SeatRepository.INSTANCE.getSurroundingSeats(this).stream().allMatch(Seat::isFree);
+    private boolean surroundingSeatsAreAllFree() {
+        return this.spotter.getSurroundingSeats(this).stream().allMatch(Seat::isFree);
     }
 
-    private long numberOfAdjecentSeatsOccupied() {
-        return SeatRepository.INSTANCE.getSurroundingSeats(this).stream()
-                .filter(Seat::isOccupied)
-                .count();
+    private boolean numberOfOccupiedSurroundingSeatsIsAcceptable() {
+        return this.spotter.numberOfOccupiedSurroundingSeatsIsAcceptable(this);
     }
 
     public void commit(ChangedStateListener listener) {

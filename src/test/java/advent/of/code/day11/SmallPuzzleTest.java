@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SeatTest {
+public class SmallPuzzleTest {
 
     @Before
     public void setUp() throws Exception {
@@ -20,19 +20,20 @@ public class SeatTest {
     }
 
     @Test
-    public void shouldChangeToOccupied() {
+    public void shouldSettle() {
         var seatRepository = SeatRepository.INSTANCE;
-        var change = new ChangedStateListener();
 
-        Seat seat = seatRepository.getSeat(new Position(0, 0)).orElse(null);
-        seat.tic();
+        while (true) {
+            var change = new ChangedStateListener();
+            seatRepository.getAllSeats().forEach(Seat::tic);
+            seatRepository.getAllSeats().forEach(s -> s.commit(change));
+            //seatRepository.print();
 
-        assertThat(seat.isFree()).isTrue();
-        assertThat(change.isStateChanged()).isFalse();
+            if (!change.isStateChanged()) {
+                break;
+            }
+        }
 
-        seat.commit(change);
-
-        assertThat(seat.isOccupied()).isTrue();
-        assertThat(change.isStateChanged()).isTrue();
+        assertThat(seatRepository.getNumberOfOccupiedSeats()).isEqualTo(37);
     }
 }

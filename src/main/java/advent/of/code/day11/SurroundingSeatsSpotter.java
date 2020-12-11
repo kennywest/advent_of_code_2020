@@ -9,4 +9,34 @@ public interface SurroundingSeatsSpotter {
     }
 
     List<Seat> getSurroundingSeats(Position position);
+
+    boolean numberOfOccupiedSurroundingSeatsIsAcceptable(Seat seat);
+
+    final class Easy implements SurroundingSeatsSpotter {
+        @Override
+        public List<Seat> getSurroundingSeats(Position position) {
+            return SeatRepository.INSTANCE.getAdjecentSurroundingSeats(position);
+        }
+
+        @Override
+        public boolean numberOfOccupiedSurroundingSeatsIsAcceptable(Seat seat) {
+            return SeatRepository.INSTANCE.getAdjecentSurroundingSeats(seat).stream()
+                    .filter(Seat::isOccupied)
+                    .count() >= 4;
+        }
+    }
+
+    final class Difficult implements SurroundingSeatsSpotter {
+        @Override
+        public List<Seat> getSurroundingSeats(Position position) {
+            return SeatRepository.INSTANCE.getAllVisibleSurroundingSeats(position);
+        }
+
+        @Override
+        public boolean numberOfOccupiedSurroundingSeatsIsAcceptable(Seat seat) {
+            return SeatRepository.INSTANCE.getAllVisibleSurroundingSeats(seat).stream()
+                    .filter(Seat::isOccupied)
+                    .count() >= 5;
+        }
+    }
 }
