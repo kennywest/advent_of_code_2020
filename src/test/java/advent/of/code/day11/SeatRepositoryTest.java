@@ -1,15 +1,27 @@
 package advent.of.code.day11;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SeatRepositoryTest {
 
-    @Test
-    public void shouldFindAdjacentSeats() throws Exception {
-        var seatRepository = new SeatRepository();
+    @Before
+    public void setUp() throws Exception {
+        var seatRepository = SeatRepository.INSTANCE;
         new Grid("input_11_1.txt").getListOfSeats().forEach(seatRepository::save);
+    }
+
+    @After
+    public void tearDown() {
+        SeatRepository.INSTANCE.clear();
+    }
+
+    @Test
+    public void shouldFindAdjacentSeats() {
+        var seatRepository = SeatRepository.INSTANCE;
 
         Seat toTest = seatRepository.getSeat(new Position(2, 1)).orElse(null);
 
@@ -27,9 +39,8 @@ public class SeatRepositoryTest {
     }
 
     @Test
-    public void shouldGetAllSeats() throws Exception {
-        var seatRepository = new SeatRepository();
-        new Grid("input_11_1.txt").getListOfSeats().forEach(seatRepository::save);
+    public void shouldGetAllSeats() {
+        var seatRepository = SeatRepository.INSTANCE;
 
         assertThat(seatRepository.getAllSeats()).hasSize(71);
     }

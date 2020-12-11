@@ -22,11 +22,11 @@ public class Grid {
 
     public List<Seat> getListOfSeats() {
         List<Seat> seats = new ArrayList<>();
-        for (int i = 0; i < this.positions.size(); i++) {
-            List<Character> row = this.positions.get(i);
-            for (int j = 0; j < row.size(); j++) {
-                if (row.get(j) == 'L') {
-                    seats.add(new Seat(j, i));
+        for (int y = 0; y < this.positions.size(); y++) {
+            List<Character> row = this.positions.get(y);
+            for (int x = 0; x < row.size(); x++) {
+                if (row.get(x) == 'L') {
+                    seats.add(new Seat(x, y));
                 }
             }
         }

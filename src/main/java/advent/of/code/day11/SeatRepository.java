@@ -9,8 +9,14 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
-public class SeatRepository {
+public final class SeatRepository {
+
+    public static final SeatRepository INSTANCE = new SeatRepository();
+
     private final Map<Position, Seat> seats = new HashMap<>();
+
+    private SeatRepository() {
+    }
 
     public Optional<Seat> getSeat(Position position) {
         return Optional.ofNullable(this.seats.get(position));
@@ -25,9 +31,42 @@ public class SeatRepository {
         return seat;
     }
 
+    public List<Seat> getSurroundingSeats(Seat seat) {
+        return getSurroundingSeats(new Position(seat.getX(), seat.getY()));
+    }
+
     public List<Seat> getSurroundingSeats(Position position) {
         return position.getSurroundingPositions().stream()
                 .flatMap(p -> getSeat(p).stream())
                 .collect(toList());
+    }
+
+    public void clear() {
+        this.seats.clear();
+    }
+
+    public long getNumberOfOccupiedSeats() {
+        return getAllSeats().stream()
+                .filter(Seat::isOccupied)
+                .count();
+    }
+
+    public void print() {
+        for (int y = 0; y <= getMaxY(); y++) {
+            for (int x = 0; x <= getMaxX(); x++) {
+                getSeat(new Position(x, y)).ifPresentOrElse(
+                        s -> System.out.print(s.isFree() ? "L " : "# "),
+                        () -> System.out.print(". "));
+            }
+            System.out.println();
+        }
+    }
+
+    private int getMaxX() {
+        return this.seats.keySet().stream().map(Position::getX).max(Integer::compareTo).orElse(0);
+    }
+
+    private int getMaxY() {
+        return this.seats.keySet().stream().map(Position::getY).max(Integer::compareTo).orElse(0);
     }
 }
