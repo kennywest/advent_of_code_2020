@@ -27,14 +27,18 @@ public class Node {
         return this.next;
     }
 
-    boolean hasPrevious() {
-        return this.previous != null;
-    }
-
     Node getFirst() {
         Node node = this;
         while (node.previous != null) {
             node = node.previous;
+        }
+        return node;
+    }
+
+    Node getLast() {
+        Node node = this;
+        while (node.next != null) {
+            node = node.next;
         }
         return node;
     }
